@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery.staticQuery.js"></script>
+<script type="text/javascript">
+
+	(function( $, win ) {
+		$(win).ready( function() {
+			var i2 = 1,
+			total = 0,
+			loopings = 1000,
+			inLoop = 100;
+			
+			while (i2 < loopings) {
+				var i = 1,
+				start = end = new Date().getTime()
+				while ( i < inLoop ) {
+					/*
+					if ( $.staticQuery('meu_teste').length === 0 )
+					{
+						$.staticQuery('meu_teste', $('p'));
+					};
+					$.staticQuery('meu_teste');
+					*/
+					$.staticQuery('p');
+					i++;
+				};
+				end = new Date().getTime();
+				total += ( end - start );
+				i2++;
+			};
+			$('body')
+				.append( ( total / loopings ) + "ms in " + ( loopings ) + " loopings" );
+
+		});
+	})( jQuery, window );
+
+</script>
+</head>
+<body>
+	<p style="display:none;">Test</p>
+</body>
+</html>
