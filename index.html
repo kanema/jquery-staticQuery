@@ -7,40 +7,59 @@
 <script type="text/javascript" src="jquery.staticQuery.js"></script>
 <script type="text/javascript">
 
-	(function( $, win ) {
-		$(win).ready( function() {
-			var i2 = 1,
-			total = 0,
-			loopings = 1000,
-			inLoop = 100;
+	(function( $, j ) {
+	
+		$(window).ready( function() {
 			
-			while (i2 < loopings) {
-				var i = 1,
-				start = end = new Date().getTime()
-				while ( i < inLoop ) {
-					/*
-					if ( $.staticQuery('meu_teste').length === 0 )
-					{
-						$.staticQuery('meu_teste', $('p'));
+			/**
+			 * Bench function
+			 */
+			var bench = function ( fn ) {
+				var i2 = 1,
+				total = 0,
+				loopings = 1000,
+				inLoop = 100;
+				
+				while (i2 < loopings) {
+					var i = 1,
+					start = end = new Date().getTime()
+					while ( i < inLoop ) {
+						fn();
+						i++;
 					};
-					$.staticQuery('meu_teste');
-					*/
-					$.staticQuery('p');
-					i++;
+					end = new Date().getTime();
+					total += ( end - start );
+					i2++;
 				};
-				end = new Date().getTime();
-				total += ( end - start );
-				i2++;
+				return ( total / loopings ) + "ms";
 			};
-			$('body')
-				.append( ( total / loopings ) + "ms in " + ( loopings ) + " loopings" );
+			
+			
+			/**
+			 * Demo
+			 */
+			var result = "Normal selector query: " + bench( function() {
+				$('p');
+			} ) + "<br />...";
+			
+			$('body').append(result);
+			
+			setTimeout( function() {
+				result = "With staticQuery: " + bench( function() {
+					j('p');
+				} );
+				$('body').append(result);
+			}, 1000 );
+			
 
 		});
-	})( jQuery, window );
+	})( jQuery, jQuery.staticQuery );
 
 </script>
 </head>
 <body>
+	<p style="display:none;">Test</p>
+	<p style="display:none;">Test</p>
 	<p style="display:none;">Test</p>
 </body>
 </html>

@@ -4,7 +4,7 @@
  * Example:
  * $.staticQuery('p').html(i);
  * -- or --
- * $.staticQuery('minha_query', $(this).parent().next().find('a:eq(0)')).attr('href');
+ * $.staticQuery('minha_query', "$(this).parent().next().find('a:eq(0)')").attr('href');
  *
  * @autor Eduardo Pacheco <du@kanema.com.br>
  * @var	query	string
@@ -14,16 +14,10 @@
 ; ( function($) {
 
 	$.staticQuery = function( query, obj ) {
-		var isObj = ( obj !== undefined && obj.constructor !== Object );
-		if ( query === undefined || query.constructor !== String || isObj ) {
-			return $();
-		};
-		query = ( ( ! isObj ) ? query : "_" + query );
-		
+	
 		if ( $.staticQuery._cache[query] === undefined )
 		{
-			var obj = obj || $(query);
-			if ( obj.length === 0 ) {
+			if ( ( obj = ( ( obj === undefined ) ? $(query) : obj ) ).length === 0 ) {
 				return obj;
 			} else {
 				$.staticQuery._cache[query] = obj;
@@ -35,7 +29,6 @@
 	$.extend(
 		$.staticQuery,
 		{
-
 			_cache : {},
 
 			// Clean cache
@@ -50,7 +43,7 @@
 				};
 				
 				// Clean a cache object
-				if ( $.staticQuery._cache[query] !== undefined || $.staticQuery._cache["_"+query] !== undefined ) {
+				if ( $.staticQuery._cache[query] !== undefined ) {
 					delete $.staticQuery._cache[query];
 					return true;
 				};
